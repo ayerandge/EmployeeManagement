@@ -15,37 +15,38 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.evoke.employeemanagement.entity.Employee;
 import com.evoke.employeemanagement.service.EmployeeServiceImpl;
+import com.evoke.employeemanagement.service.IEmployeeService;
 
 @RestController
-@RequestMapping(value="/api")
+@RequestMapping(value="/employee-service")
 public class EmployeeController {
 	
 	@Autowired
-	private EmployeeServiceImpl empService;
+	private IEmployeeService empService;
 	
-	@PostMapping(value="/add")
+	@PostMapping(value="/employee")
 	public Employee addEmployeeData(@RequestBody Employee empdata) {
 		return empService.addEmployee(empdata);
 	}
 	
-	@GetMapping(value="/{id}")
+	@GetMapping(value="/employee/{id}")
 	public Optional<Employee> displayEmployeeeeById(@PathVariable Long id) {
 		return empService.findEmployeeById(id);
 	}
 	
-	@GetMapping("/all")
+	@GetMapping("/employee")
 	public List<Employee> getAllEmployees(){
 		List<Employee> lst=empService.getAllEmployees();
 		return lst;
 	}
 	
-	@PutMapping("/update")
+	@PutMapping("/employee")
 	public Employee updateEmployeeById(@RequestBody Employee emp) {
 		return empService.updateEmployee(emp);
 	}
 	
 	
-	@DeleteMapping("/{id}")
+	@DeleteMapping("/employee/{id}")
 	public void deleteEmployeeById(@PathVariable Long id) {
 		empService.deleteEmployee(id);
 	}
