@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,30 +27,40 @@ public class EmployeeController {
 	private IEmployeeService empService;
 	
 	@PostMapping(value="/employee")
-	public Employee addEmployeeData(@RequestBody Employee empdata) {
-		return empService.addEmployee(empdata);
+	public ResponseEntity<Employee> addEmployeeData(@RequestBody Employee empdata) {
+		
+		return new ResponseEntity(empService.addEmployee(empdata),HttpStatus.CREATED);
 	}
 	
 	@GetMapping(value="/employee/{id}")
-	public Optional<Employee> displayEmployeeeeById(@PathVariable Long id) {
-		return empService.findEmployeeById(id);
+	public ResponseEntity<?> displayEmployeeeeById(@PathVariable Long id) {
+		
+		Employee empTest=empService.findEmployeeById(id);
+		
+		if(empTest==null) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Employee not found");
+		}
+		
+		return ResponseEntity.ok(empTest);
 	}
 	
 	@GetMapping("/employee")
-	public List<Employee> getAllEmployees(){
+	public ResponseEntity<List<Employee>> getAllEmployees(){
 		List<Employee> lst=empService.getAllEmployees();
-		return lst;
+		return ResponseEntity.badRequest().body(lst);
 	}
 	
 	@PutMapping("/employee")
-	public Employee updateEmployeeById(@RequestBody Employee emp) {
-		return empService.updateEmployee(emp);
+	public ResponseEntity<Employee> updateEmployeeById(@RequestBody Employee emp) {
+		Employee val= empService.updateEmployee(emp);
+		return ResponseEntity.ok(val);
 	}
 	
 	
 	@DeleteMapping("/employee/{id}")
-	public void deleteEmployeeById(@PathVariable Long id) {
+	public ResponseEntity<?> deleteEmployeeById(@PathVariable Long id) {
 		empService.deleteEmployee(id);
+		return ResponseEntity.status(HttpStatus.OK).body("Employee is removed");
 	}
 	
 }
