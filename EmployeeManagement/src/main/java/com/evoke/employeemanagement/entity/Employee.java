@@ -33,6 +33,17 @@ public class Employee {
 	@Column(name = "create_on", nullable = false)
 	private LocalDate createdOn;
 
+	
+	public Employee(Long empId, String empName, String empPhone, String email, String createdBy, LocalDate createdOn) {
+		super();
+		this.empId = empId;
+		this.empName = empName;
+		this.empPhone = empPhone;
+		this.email = email;
+		this.createdBy = createdBy;
+		this.createdOn = createdOn;
+	}
+
 	public Long getEmpId() {
 		return empId;
 	}
