@@ -46,7 +46,7 @@ public class EmployeeController {
 	@GetMapping("/employee")
 	public ResponseEntity<List<Employee>> getAllEmployees(){
 		List<Employee> lst=empService.getAllEmployees();
-		return ResponseEntity.badRequest().body(lst);
+		return ResponseEntity.ok().body(lst);
 	}
 	
 	@PutMapping("/employee")
@@ -58,7 +58,7 @@ public class EmployeeController {
 	
 	@DeleteMapping("/employee/{id}")
 	public ResponseEntity<?> deleteEmployeeById(@PathVariable Long id) {
-		 empService.deleteEmployee(id);
+		empService.deleteEmployee(id);
 		return ResponseEntity.status(HttpStatus.OK).body("Employee is removed");
 	}
 	

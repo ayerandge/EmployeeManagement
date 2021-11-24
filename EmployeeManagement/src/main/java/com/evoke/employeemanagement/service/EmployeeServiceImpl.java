@@ -23,7 +23,11 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		if(!isValid(employee.getEmail())) {
 			throw new InvalidEmailException("Provide proper email");
 		}
+		try {
 		employeeRepo.save(employee);
+		}catch (Exception e) {
+			throw new BusinessException("There was some issue with saving of data to db");
+		}
 		return employee;
 	}
 	
