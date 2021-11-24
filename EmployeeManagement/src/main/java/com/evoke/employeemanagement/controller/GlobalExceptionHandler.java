@@ -17,13 +17,11 @@ public class GlobalExceptionHandler {
 
 	@ExceptionHandler(ResourceNotFoundException.class)
 	public ResponseEntity<ApiResponseException> handleResourceNotFoundException(ResourceNotFoundException ex){
-		
 		ApiResponseException response=new ApiResponseException();
 		response.setErrorMessage(ex.getMessage());
 		response.setErrorCode(HttpStatus.NOT_FOUND);
 		response.setTimeStamp(LocalDateTime.now());
 		response.setDetailedMessage(ex.getStackTrace()[0]);
-		
 		return new ResponseEntity<ApiResponseException>(response,HttpStatus.NOT_FOUND);
 	}
 	
@@ -47,5 +45,14 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<ApiResponseException>(response,HttpStatus.BAD_REQUEST);
 	}
 	
+	@ExceptionHandler(Exception.class)
+	public ResponseEntity<ApiResponseException> handleOtherException(Exception ex){
+		ApiResponseException response=new ApiResponseException();
+		response.setErrorMessage("Unknown error"+ex.getMessage());
+		response.setErrorCode(HttpStatus.INTERNAL_SERVER_ERROR);
+		response.setTimeStamp(LocalDateTime.now());
+		response.setDetailedMessage(ex.getStackTrace()[0]);
+		return new ResponseEntity<ApiResponseException>(response,HttpStatus.INTERNAL_SERVER_ERROR);
+	}
 	
 }
