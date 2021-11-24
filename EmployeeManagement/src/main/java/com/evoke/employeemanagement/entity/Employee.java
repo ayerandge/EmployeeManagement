@@ -1,5 +1,6 @@
 package com.evoke.employeemanagement.entity;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 import javax.persistence.Column;
