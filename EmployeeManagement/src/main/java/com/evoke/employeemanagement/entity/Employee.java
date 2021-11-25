@@ -32,7 +32,10 @@ public class Employee {
 	@JsonFormat(pattern="yyyy-MM-dd",shape = Shape.STRING)
 	@Column(name = "create_on", nullable = false)
 	private LocalDate createdOn;
-
+	
+	public Employee() {
+		
+	}
 	
 	public Employee(Long empId, String empName, String empPhone, String email, String createdBy, LocalDate createdOn) {
 		super();
@@ -43,6 +46,7 @@ public class Employee {
 		this.createdBy = createdBy;
 		this.createdOn = createdOn;
 	}
+	
 
 	public Long getEmpId() {
 		return empId;

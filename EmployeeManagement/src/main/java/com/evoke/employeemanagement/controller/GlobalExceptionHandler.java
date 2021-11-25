@@ -45,14 +45,25 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<ApiResponseException>(response,HttpStatus.BAD_REQUEST);
 	}
 	
-	@ExceptionHandler(Exception.class)
-	public ResponseEntity<ApiResponseException> handleOtherException(Exception ex){
+	@ExceptionHandler(IllegalArgumentException.class)
+	public ResponseEntity<ApiResponseException> handleIllegalArgumentException(IllegalArgumentException ex){
 		ApiResponseException response=new ApiResponseException();
-		response.setErrorMessage("Unknown error"+ex.getMessage());
-		response.setErrorCode(HttpStatus.INTERNAL_SERVER_ERROR);
+		response.setErrorMessage("Invalid parameter");
+		response.setErrorCode(HttpStatus.NOT_ACCEPTABLE);
 		response.setTimeStamp(LocalDateTime.now());
 		response.setDetailedMessage(ex.getStackTrace()[0]);
-		return new ResponseEntity<ApiResponseException>(response,HttpStatus.INTERNAL_SERVER_ERROR);
+		return new ResponseEntity<ApiResponseException>(response,HttpStatus.BAD_REQUEST);
 	}
+	
+	
+//	@ExceptionHandler(Exception.class)
+//	public ResponseEntity<ApiResponseException> handleOtherException(Exception ex){
+//		ApiResponseException response=new ApiResponseException();
+//		response.setErrorMessage("Unknown error"+ex.getMessage());
+//		response.setErrorCode(HttpStatus.INTERNAL_SERVER_ERROR);
+//		response.setTimeStamp(LocalDateTime.now());
+//		response.setDetailedMessage(ex.getStackTrace()[0]);
+//		return new ResponseEntity<ApiResponseException>(response,HttpStatus.INTERNAL_SERVER_ERROR);
+//	}
 	
 }

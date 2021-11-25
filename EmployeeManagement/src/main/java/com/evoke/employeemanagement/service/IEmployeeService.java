@@ -1,7 +1,6 @@
 package com.evoke.employeemanagement.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import com.evoke.employeemanagement.entity.Employee;
 

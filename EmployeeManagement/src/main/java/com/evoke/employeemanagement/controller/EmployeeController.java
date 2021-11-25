@@ -28,18 +28,14 @@ public class EmployeeController {
 	
 	@PostMapping(value="/employee")
 	public ResponseEntity<Employee> addEmployeeData(@RequestBody Employee empdata) {
-		return new ResponseEntity(empService.addEmployee(empdata),HttpStatus.CREATED);
+		Employee emp=empService.addEmployee(empdata);
+		return new ResponseEntity(emp,HttpStatus.CREATED);
 	}
 	
 	@GetMapping(value="/employee/{id}")
 	public ResponseEntity<?> displayEmployeeeeById(@PathVariable Long id) {
 		
 		Employee empTest=empService.findEmployeeById(id);
-		
-		if(empTest==null) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Employee not found");
-		}
-		
 		return ResponseEntity.ok(empTest);
 	}
 	

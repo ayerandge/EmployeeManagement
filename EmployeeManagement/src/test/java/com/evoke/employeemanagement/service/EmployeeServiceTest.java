@@ -66,9 +66,9 @@ public class EmployeeServiceTest {
 	
 	@Test
 	public void testDeleteEmployee() throws Exception {
-		Long empId=(long) 12;
-		doNothing().when(employeeRepo).deleteById(empId);
+		Long empId=(long)12;
 		empService.deleteEmployee(empId);
+
 		verify(employeeRepo,times(1)).deleteById(empId);
 	}	
 	
