@@ -1,7 +1,12 @@
 package com.evoke.employeemanagement.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.timeout;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -25,7 +30,9 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.evoke.employeemanagement.dao.EmployeeRepo;
 import com.evoke.employeemanagement.entity.Employee;
+import com.evoke.employeemanagement.exception.InvalidEmailException;
 import com.evoke.employeemanagement.service.EmployeeServiceImpl;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
@@ -91,6 +98,16 @@ public class ControllerTest {
 		assertEquals(result.getResponse().getContentAsString(),om.writeValueAsString(empList));
 	}
 	
+	@Test
+	void testDeleteEmployee() throws Exception{
+		Long empId=(long)12;
+		doNothing().when(empService).deleteEmployee(empId);;
+		MvcResult result=mockMvc.perform(delete("/employee-service/employee/12")).andExpect(status().isOk()).andReturn();
+		assertEquals(200,result.getResponse().getStatus());
+		verify(empService, times(1)).deleteEmployee(empId);
+		
+		
+	}
 	
 }
 
