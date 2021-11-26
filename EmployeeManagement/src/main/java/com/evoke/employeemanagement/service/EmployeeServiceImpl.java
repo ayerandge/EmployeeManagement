@@ -22,6 +22,9 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		if(!isValid(employee.getEmail())) {
 			throw new InvalidEmailException("Provide proper email");
 		}
+		if(employeeRepo.findById(employee.getEmpId()).isPresent()){
+			throw new BusinessException("Employee is already present");
+		}
 		try {
 		employeeRepo.save(employee);
 		}catch (Exception e) {

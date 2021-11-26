@@ -2,7 +2,6 @@ package com.evoke.employeemanagement.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.timeout;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -30,9 +29,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.evoke.employeemanagement.dao.EmployeeRepo;
 import com.evoke.employeemanagement.entity.Employee;
-import com.evoke.employeemanagement.exception.InvalidEmailException;
 import com.evoke.employeemanagement.service.EmployeeServiceImpl;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
