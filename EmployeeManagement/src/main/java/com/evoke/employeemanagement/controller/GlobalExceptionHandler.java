@@ -65,5 +65,5 @@ public class GlobalExceptionHandler {
 //		response.setDetailedMessage(ex.getStackTrace()[0]);
 //		return new ResponseEntity<ApiResponseException>(response,HttpStatus.INTERNAL_SERVER_ERROR);
 //	}
-	
+
 }
