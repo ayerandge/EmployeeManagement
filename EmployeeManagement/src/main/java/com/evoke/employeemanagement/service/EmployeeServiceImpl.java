@@ -1,6 +1,7 @@
 package com.evoke.employeemanagement.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,14 +20,20 @@ public class EmployeeServiceImpl implements IEmployeeService {
 
 	@Override
 	public Employee addEmployee(Employee employee) {
+		
+		
 		if(!isValid(employee.getEmail())) {
+			
 			throw new InvalidEmailException("Provide proper email");
 		}
-		if(employeeRepo.findById(employee.getEmpId()).isPresent()){
-			throw new BusinessException("Employee is already present");
-		}
+//		if(employeeRepo.findById(employee.getEmpId()).isPresent()){
+//			System.out.println("here");
+//			throw new BusinessException("Employee is already present");
+//		}
 		try {
+			
 		employeeRepo.save(employee);
+		
 		}catch (Exception e) {
 			throw new BusinessException("There was some issue with saving of data to db");
 		}
@@ -36,28 +43,28 @@ public class EmployeeServiceImpl implements IEmployeeService {
 	public static boolean isValid(String email) {
 		String regex = "^[a-zA-Z]+@[a-zA-Z.-]+$";
 		boolean val=email.matches(regex);
+		
 		return val;
 	}
 
 	@Override
 	public List<Employee> getAllEmployees() {
-		return employeeRepo.findallTheEmployees();
+		return employeeRepo.findAll();
 	}
 
 	@Override
 	public Employee findEmployeeById(Long id) {
-			Employee emp = employeeRepo.findEmployeeById(id);
-			if (emp == null || emp.getEmpName().isEmpty())
+			Optional<Employee> emp = employeeRepo.findById(id);
+			if (!(emp.isPresent()))
 				throw new ResourceNotFoundException("Resource not found for Id : " + id);
-			return emp;
+			return emp.get();
 		
 	}
 
 	@Override
 	public void deleteEmployee(Long id) {
 		
-			Employee emp = employeeRepo.findEmployeeById(id);
-			System.out.println("Hello");
+			Optional<Employee> emp = employeeRepo.findById(id);
 			if (emp == null) {
 				throw new ResourceNotFoundException("Resource not found for Id : " + id);
 			}
@@ -66,8 +73,8 @@ public class EmployeeServiceImpl implements IEmployeeService {
 
 	@Override
 	public Employee updateEmployee(Employee employee) {
-			Employee empDao = employeeRepo.findEmployeeById(employee.getEmpId());
-			if (empDao == null) {
+			Optional<Employee> empDao = employeeRepo.findById(employee.getEmpId());
+			if (empDao.isEmpty()) {
 				throw new ResourceNotFoundException(
 						"User with employeeId : " + employee.getEmpId() + " Does not exits");
 			}

@@ -34,12 +34,12 @@ public class EmployeeServiceTest {
 	@Test
 	public void testGetEmployeeMock() {
 		long empid = 10;
-		Mockito.when(employeeRepo.findEmployeeById(empid)).thenReturn(
+		Mockito.when(employeeRepo.getById(empid)).thenReturn(
 				new Employee((long) (10), "John", "123421213", "john@gmail.com", "Admin", LocalDate.of(2020, 02, 03)));
 		Employee obj = new Employee((long) (10), "John", "123421213", "john@gmail.com", "Admin",
 				LocalDate.of(2020, 02, 03));
 		assertEquals(obj.getEmpName(), empService.findEmployeeById(empid).getEmpName());
-		verify(employeeRepo, times(1)).findEmployeeById(empid);
+		verify(employeeRepo, times(1)).getById(empid);
 	}
 
 	@Test
@@ -52,9 +52,9 @@ public class EmployeeServiceTest {
 		List<Employee> empList = new ArrayList<>();
 		empList.add(empOne);
 		empList.add(empTwo);
-		Mockito.when(employeeRepo.findallTheEmployees()).thenReturn(empList);
+		Mockito.when(employeeRepo.findAll()).thenReturn(empList);
 		assertEquals(2, empService.getAllEmployees().size());
-		verify(employeeRepo, times(1)).findallTheEmployees();
+		verify(employeeRepo, times(1)).findAll();
 	}
 
 	@Test
@@ -70,7 +70,7 @@ public class EmployeeServiceTest {
 		Employee emp = new Employee((long) (12), "John", "123421213", "john@gmail.com", "Admin",
 				LocalDate.of(2020, 02, 03));
 		Long empId = (long) 15;
-		when(employeeRepo.findEmployeeById(empId)).thenReturn(emp);
+		when(employeeRepo.getById(empId)).thenReturn(emp);
 		empService.deleteEmployee(empId);
 		verify(employeeRepo, times(1)).deleteById(empId);
 	}
@@ -84,10 +84,10 @@ public class EmployeeServiceTest {
 		emp.setEmpPhone("123213424");
 		emp.setCreatedBy("Admin");
 		emp.setCreatedOn(LocalDate.now());
-		when(employeeRepo.findEmployeeById(emp.getEmpId())).thenReturn(emp);
+		when(employeeRepo.getById(emp.getEmpId())).thenReturn(emp);
 		empService.updateEmployee(emp);
 		verify(employeeRepo).save(emp);
-		verify(employeeRepo).findEmployeeById(emp.getEmpId());
+		verify(employeeRepo).getById(emp.getEmpId());
 	}
 
 	@Test()
@@ -99,10 +99,10 @@ public class EmployeeServiceTest {
 		emp.setEmpPhone("123213424");
 		emp.setCreatedBy("Admin");
 		emp.setCreatedOn(LocalDate.now());
-		when(employeeRepo.findEmployeeById(emp.getEmpId()))
+		when(employeeRepo.getById(emp.getEmpId()))
 				.thenThrow(new ResourceNotFoundException("No Employee found"));
 		Assertions.assertThrows(ResourceNotFoundException.class, () -> empService.updateEmployee(emp));
-		verify(employeeRepo).findEmployeeById(emp.getEmpId());
+		verify(employeeRepo).getById(emp.getEmpId());
 		verify(employeeRepo, times(0)).save(emp);
 	}
 
