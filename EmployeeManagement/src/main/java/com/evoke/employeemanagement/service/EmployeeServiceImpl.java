@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.evoke.employeemanagement.DTO.EmployeeDTO;
 import com.evoke.employeemanagement.dao.EmployeeRepo;
 import com.evoke.employeemanagement.entity.Employee;
 import com.evoke.employeemanagement.exception.BusinessException;
@@ -19,10 +20,10 @@ public class EmployeeServiceImpl implements IEmployeeService {
 	private EmployeeRepo employeeRepo;
 
 	@Override
-	public Employee addEmployee(Employee employee) {
+	public Employee addEmployee(EmployeeDTO employee) {
 		
-		
-		if(!isValid(employee.getEmail())) {
+		Employee emp= mapToEntity(employee);
+		if(!isValid(emp.getEmail())) {
 			
 			throw new InvalidEmailException("Provide proper email");
 		}
@@ -32,12 +33,12 @@ public class EmployeeServiceImpl implements IEmployeeService {
 //		}
 		try {
 			
-		employeeRepo.save(employee);
+		employeeRepo.save(emp);
 		
 		}catch (Exception e) {
 			throw new BusinessException("There was some issue with saving of data to db");
 		}
-		return employee;
+		return emp;
 	}
 	
 	public static boolean isValid(String email) {
@@ -72,16 +73,20 @@ public class EmployeeServiceImpl implements IEmployeeService {
 	}
 
 	@Override
-	public Employee updateEmployee(Employee employee) {
-			Optional<Employee> empDao = employeeRepo.findById(employee.getEmpId());
+	public Employee updateEmployee(EmployeeDTO employee) {
+			Employee emp=mapToEntity(employee);
+			Optional<Employee> empDao = employeeRepo.findById(emp.getEmpId());
 			if (empDao.isEmpty()) {
 				throw new ResourceNotFoundException(
 						"User with employeeId : " + employee.getEmpId() + " Does not exits");
 			}
-			return employeeRepo.save(employee);
+			return employeeRepo.save(emp);
 
 		}
 		
+	public Employee mapToEntity(EmployeeDTO emp) {
+		return new Employee(emp.getEmpId(), emp.getEmpName(), emp.getEmpPhone(), emp.getEmail(), emp.getCreatedBy(), emp.getCreatedOn());
+	}
 	
 
 }

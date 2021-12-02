@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,10 +14,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.evoke.employeemanagement.DTO.EmployeeDTO;
 import com.evoke.employeemanagement.entity.Employee;
 import com.evoke.employeemanagement.service.IEmployeeService;
 
-import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -35,7 +34,7 @@ public class EmployeeController {
 	@ApiResponses({@ApiResponse(responseCode = "201",content = @Content(mediaType ="application/json" )),
 	@ApiResponse(responseCode = "500",content = @Content(mediaType ="application/json" ))})
 	@PostMapping(value="/employee")
-	public ResponseEntity<Employee> addEmployeeData(@RequestBody Employee empdata) {
+	public ResponseEntity<Employee> addEmployeeData(@RequestBody EmployeeDTO empdata) {
 		Employee emp=empService.addEmployee(empdata);
 		return ResponseEntity.status(HttpStatus.CREATED).body(emp);
 	}
@@ -60,7 +59,7 @@ public class EmployeeController {
 			tags="Put")
 	@ApiResponses(@ApiResponse(responseCode = "200",content = @Content(mediaType ="application/json" )))
 	@PutMapping("/employee")
-	public ResponseEntity<Employee> updateEmployeeById(@RequestBody Employee emp) {
+	public ResponseEntity<Employee> updateEmployeeById(@RequestBody EmployeeDTO emp) {
 		Employee val= empService.updateEmployee(emp);
 		return ResponseEntity.ok(val);
 	}
