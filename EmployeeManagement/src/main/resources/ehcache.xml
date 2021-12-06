@@ -1,0 +1,18 @@
+<ehcache>
+
+ <diskStore path="java.io.tmpdir" />
+
+             
+    <cache name="employeeCache"
+           maxEntriesLocalHeap="20"
+           maxEntriesLocalDisk="200"
+           eternal="false"
+           diskSpoolBufferSizeMB="20"
+           timeToIdleSeconds="3000"
+           timeToLiveSeconds="6000"
+           memoryStoreEvictionPolicy="LFU"
+           transactionalMode="off"
+           >
+           <persistence strategy="LocalTempSwap"/>
+           </cache>
+</ehcache>

@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.info.Info;
 
 @SpringBootApplication
 @OpenAPIDefinition(info = @Info(title="Employee Management Api"))
+@EnableCaching
 public class EmployeeManagementApplication {
 
 	public static void main(String[] args) {

@@ -1,5 +1,6 @@
 package com.evoke.employeemanagement.entity;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 import javax.persistence.Column;
@@ -14,8 +15,12 @@ import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 
 @Entity
 @Table(name="employee")
-public class Employee {
+public class Employee implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6344920510509250650L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id", nullable = false)

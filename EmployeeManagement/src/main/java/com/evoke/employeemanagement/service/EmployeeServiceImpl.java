@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.evoke.employeemanagement.DTO.EmployeeDTO;
@@ -53,15 +56,18 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		return employeeRepo.findAll();
 	}
 
+	@Cacheable(cacheNames = "employeeCache",key = "#id")
 	@Override
 	public Employee findEmployeeById(Long id) {
+		
 			Optional<Employee> emp = employeeRepo.findById(id);
 			if (!(emp.isPresent()))
 				throw new ResourceNotFoundException("Resource not found for Id : " + id);
 			return emp.get();
-		
+	
 	}
 
+	@CacheEvict(cacheNames = "employeeCache", key ="#id" )
 	@Override
 	public void deleteEmployee(Long id) {
 		
@@ -72,6 +78,7 @@ public class EmployeeServiceImpl implements IEmployeeService {
 			employeeRepo.deleteById(id);
 	}
 
+	@CachePut(value = "employeeCache",key = "#employee.empId")
 	@Override
 	public Employee updateEmployee(EmployeeDTO employee) {
 			Employee emp=mapToEntity(employee);
