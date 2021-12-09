@@ -1,6 +1,6 @@
 <ehcache>
 
- <diskStore path="java.io.tmpdir" />
+ <diskStore path="C:\\Users\\ayerandge\\Desktop\\GitRepo" />
 
              
     <cache name="employeeCache"
