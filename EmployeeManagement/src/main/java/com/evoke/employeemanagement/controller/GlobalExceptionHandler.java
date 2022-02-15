@@ -56,14 +56,14 @@ public class GlobalExceptionHandler {
 	}
 	
 	
-	@ExceptionHandler(Exception.class)
-	public ResponseEntity<ApiResponseException> handleOtherException(Exception ex){
-		ApiResponseException response=new ApiResponseException();
-		response.setErrorMessage("Unknown error"+ex.getMessage());
-		response.setErrorCode(HttpStatus.INTERNAL_SERVER_ERROR);
-		response.setTimeStamp(LocalDateTime.now());
-		response.setDetailedMessage(ex.getStackTrace()[0]);
-		return new ResponseEntity<ApiResponseException>(response,HttpStatus.INTERNAL_SERVER_ERROR);
-	}
+// 	@ExceptionHandler(Exception.class)
+// 	public ResponseEntity<ApiResponseException> handleOtherException(Exception ex){
+// 		ApiResponseException response=new ApiResponseException();
+// 		response.setErrorMessage("Unknown error"+ex.getMessage());
+// 		response.setErrorCode(HttpStatus.INTERNAL_SERVER_ERROR);
+// 		response.setTimeStamp(LocalDateTime.now());
+// 		response.setDetailedMessage(ex.getStackTrace()[0]);
+// 		return new ResponseEntity<ApiResponseException>(response,HttpStatus.INTERNAL_SERVER_ERROR);
+// 	}
 
 }
