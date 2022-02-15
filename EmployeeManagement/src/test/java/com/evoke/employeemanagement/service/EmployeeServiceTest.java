@@ -8,6 +8,7 @@ import static org.mockito.Mockito.when;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -35,12 +36,12 @@ public class EmployeeServiceTest {
 	@Test
 	public void testGetEmployeeMock() {
 		long empid = 10;
-		Mockito.when(employeeRepo.getById(empid)).thenReturn(
-				new Employee((long) (10), "John", "123421213", "john@gmail.com", "Admin", LocalDate.of(2020, 02, 03)));
+		Mockito.when(employeeRepo.findById(empid)).thenReturn(Optional.of(new Employee((long) (10), "John", "123421213", "john@gmail.com", "Admin", LocalDate.of(2020, 02, 03)))
+				);
 		Employee obj = new Employee((long) (10), "John", "123421213", "john@gmail.com", "Admin",
 				LocalDate.of(2020, 02, 03));
 		assertEquals(obj.getEmpName(), empService.findEmployeeById(empid).getEmpName());
-		verify(employeeRepo, times(1)).getById(empid);
+		verify(employeeRepo, times(1)).findById(empid);
 	}
 
 	@Test
@@ -63,8 +64,8 @@ public class EmployeeServiceTest {
 		EmployeeDTO empD = new EmployeeDTO((long) (12), "John", "123421213", "john@gmail.com", "Admin",
 				LocalDate.of(2020, 02, 03));
 		Employee emp=mapToEntity(empD);
-		Mockito.when(employeeRepo.save(emp)).thenReturn(emp);
-		assertEquals(emp, empService.addEmployee(empD));
+		Mockito.when(employeeRepo.save(Mockito.any())).thenReturn(emp);
+		assertEquals(emp.getEmpName(), empService.addEmployee(empD).getEmpName());
 	}
 
 	@Test
@@ -72,7 +73,7 @@ public class EmployeeServiceTest {
 		Employee emp = new Employee((long) (12), "John", "123421213", "john@gmail.com", "Admin",
 				LocalDate.of(2020, 02, 03));
 		Long empId = (long) 15;
-		when(employeeRepo.getById(empId)).thenReturn(emp);
+		when(employeeRepo.findById(empId)).thenReturn(Optional.of(emp));
 		empService.deleteEmployee(empId);
 		verify(employeeRepo, times(1)).deleteById(empId);
 	}
@@ -87,11 +88,11 @@ public class EmployeeServiceTest {
 		emp.setCreatedBy("Admin");
 		emp.setCreatedOn(LocalDate.now());
 		Employee employee=mapToEntity(emp);
-		when(employeeRepo.getById(emp.getEmpId())).thenReturn(employee);
-		
+		when(employeeRepo.findById(emp.getEmpId())).thenReturn(Optional.of(employee));
+		//when(employeeRepo.save(entity))
 		empService.updateEmployee(emp);
-		verify(employeeRepo).save(employee);
-		verify(employeeRepo).getById(emp.getEmpId());
+		//verify(employeeRepo).save(employee);
+		verify(employeeRepo).findById(emp.getEmpId());
 	}
 
 	@Test()
@@ -103,10 +104,10 @@ public class EmployeeServiceTest {
 		emp.setEmpPhone("123213424");
 		emp.setCreatedBy("Admin");
 		emp.setCreatedOn(LocalDate.now());
-		when(employeeRepo.getById(emp.getEmpId()))
+		when(employeeRepo.findById(emp.getEmpId()))
 				.thenThrow(new ResourceNotFoundException("No Employee found"));
 		Assertions.assertThrows(ResourceNotFoundException.class, () -> empService.updateEmployee(emp));
-		verify(employeeRepo).getById(emp.getEmpId());
+		verify(employeeRepo).findById(emp.getEmpId());
 	//	verify(employeeRepo, times(0)).save(emp);
 	}
 

@@ -7,6 +7,8 @@ import org.springframework.stereotype.Component;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 
+import lombok.Data;
+
 @Component
 public class EmployeeDTO {
 		

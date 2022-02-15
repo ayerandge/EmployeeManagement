@@ -17,9 +17,6 @@ import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 @Table(name="employee")
 public class Employee implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -6344920510509250650L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
